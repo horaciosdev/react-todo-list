@@ -1,3 +1,13 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-bottom: solid 1px #444;
+  margin-bottom: 5px;
+}
+
 .container {
   display: flex;
   justify-content: center;

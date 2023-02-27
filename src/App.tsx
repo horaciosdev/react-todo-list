@@ -6,6 +6,8 @@ import {
   FaTrash,
   FaPencilAlt,
   FaTimes,
+  FaGithub,
+  FaRocket,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
@@ -175,9 +177,25 @@ function App() {
         </div>
       )}
 
+      <header>
+        <button>
+          <a
+            href="https://github.com/horaciosdev/react-todo-list"
+            target="_blank"
+          >
+            <FaGithub /> GitHub
+          </a>
+        </button>{" "}
+        <button>
+          <a href="https://my-portfolio-ten-navy.vercel.app/" target="_blank">
+            <FaRocket /> Other Projects
+          </a>
+        </button>
+      </header>
+
       <div className="container">
         <Tooltip anchorSelect=".button" />
-        <h1 className="header">
+        <h1>
           <span>
             <FaList />
           </span>{" "}
