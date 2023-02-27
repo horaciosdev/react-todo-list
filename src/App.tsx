@@ -95,7 +95,7 @@ function App() {
       setEditingArray(taskArray);
     }
   };
-  const handleEditChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEditChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     let { id, description } = editingTask as Task;
     description = e.target.value;
     setEditingTask({ id, description });
@@ -154,8 +154,8 @@ function App() {
       {isEditing && editingTask && (
         <div className="overlay">
           <div className="modal">
-            <input
-              type="text"
+            <textarea
+              rows={4}
               onChange={(e) => handleEditChange(e)}
               value={editingTask.description}
             />
@@ -185,8 +185,7 @@ function App() {
           <span>Do</span> <span>LIST</span>
         </h1>
         <div className="input-container">
-          <input
-            type="text"
+          <textarea
             value={newTaskDescription}
             onChange={(event) => setNewTaskDescription(event.target.value)}
             placeholder="Add a new task"
