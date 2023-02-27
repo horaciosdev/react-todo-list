@@ -189,10 +189,10 @@ function App() {
             type="text"
             value={newTaskDescription}
             onChange={(event) => setNewTaskDescription(event.target.value)}
-            placeholder="Adicione uma nova tarefa"
+            placeholder="Add a new task"
           />
           <button onClick={handleAddTask} className="button">
-            Adicionar Tarefa
+            Add a Task
           </button>
         </div>
         <div className="task-panel">
