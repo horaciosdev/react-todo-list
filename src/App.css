@@ -13,13 +13,27 @@ h1 {
   font-size: 36px;
   text-align: center;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
+h1 span:nth-child(1) svg {
+  font-size: 1.3em;
+  vertical-align: middle;
+}
 h1 span:nth-child(2) {
   color: orange;
+  background-color: purple;
+  width: 50px;
+  height: 50px;
 }
 h1 span:nth-child(3) {
   color: purple;
+  background-color: orange;
+  width: 50px;
+  height: 50px;
 }
 h1 span:nth-child(4) {
   color: green;
@@ -53,6 +67,7 @@ input {
   font-weight: bold;
   text-transform: uppercase;
   text-shadow: 1px 1px 1px #666;
+  box-shadow: 0px 1px 2px 1px #222;
   transition: 0.1s;
 }
 
@@ -86,6 +101,8 @@ input {
   align-items: center;
   justify-content: center;
   gap: 15px;
+  text-shadow: 1px 1px 2px #777;
+  border-bottom: solid 2px #ccc;
 }
 
 .label-todo {
@@ -102,8 +119,10 @@ input {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: #666;
+  background-color: #556;
   border-bottom: solid 2px #fff;
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
 }
 
 .task-controls {
@@ -112,6 +131,10 @@ input {
   align-items: center;
   gap: 8px;
   padding: 10px 0;
+}
+
+.edit-button {
+  background-color: gray;
 }
 
 .todo-button {
@@ -128,9 +151,45 @@ input {
 }
 
 .delete-button {
-  background-color: #e74c3c;
+  background-color: red;
 }
 
-.delete-button:hover {
-  background-color: #c0392b;
+/* MODAL */
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal {
+  width: 100%;
+  max-width: 900px;
+  background-color: #666;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 0 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.modal .edit-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.modal .button {
+  background-color: green;
+  width: 100px;
+}
+.modal .cancel-button {
+  background-color: red;
 }
