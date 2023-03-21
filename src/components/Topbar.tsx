@@ -1,13 +1,17 @@
-import { FaList } from "react-icons/fa";
+import { Typography } from "@mui/material";
+
+import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
+import { CustomAppBarFlex, CustomBoxFlex } from "./CustomMuiComponents";
 
 export default function Topbar() {
   return (
-    <h1>
-      <span>
-        <FaList />
-      </span>{" "}
-      <span>To</span>
-      <span>Do</span> <span>LIST</span>
-    </h1>
+    <CustomAppBarFlex position="sticky">
+      <CustomBoxFlex>
+        <Typography variant="h3">
+          <ViewKanbanIcon sx={{ fontSize: "inherit" }} />
+        </Typography>
+        <Typography variant="h3">ToDo Kanbam</Typography>
+      </CustomBoxFlex>
+    </CustomAppBarFlex>
   );
 }

@@ -1,14 +1,30 @@
+import { Box, IconButton, List, Paper } from "@mui/material";
+
+import Divider from "@mui/material/Divider/Divider";
+import Typography from "@mui/material/Typography/Typography";
 import { useState, useEffect } from "react";
-import { FaList, FaTools, FaCheck, FaTrash, FaTimes } from "react-icons/fa";
+import { FaCheck, FaTimes } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
 import AddTaskBar from "./components/AddTaskBar";
-import DeleteTaskButton from "./components/buttons/DeleteTaskButton";
-import EditTaskButton from "./components/buttons/EditTaskButton";
+
 import Header from "./components/Header";
 import Topbar from "./components/Topbar";
+import TaskButton from "./components/buttons/TaskButton";
+
+import ListIcon from "@mui/icons-material/List";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  CustomBoxFlex,
+  CustomCardTask,
+  CustomFlexButtonGroup,
+  CustomTaskListItem,
+} from "./components/CustomMuiComponents";
 
 interface Task {
   id: number;
@@ -38,7 +54,7 @@ function App() {
     setNewTaskDescription("");
   };
 
-  const handleToDoTask = (taskArray: Task[], taskId: number) => {
+  const sendToTodo = (taskArray: Task[], taskId: number) => {
     const movingTask = taskArray.find((task) =>
       task.id == taskId ? task : null
     );
@@ -48,7 +64,7 @@ function App() {
     }
   };
 
-  const handleDoingTask = (taskArray: Task[], taskId: number) => {
+  const sendToDoing = (taskArray: Task[], taskId: number) => {
     const movingTask = taskArray.find((task) =>
       task.id == taskId ? task : null
     );
@@ -58,7 +74,7 @@ function App() {
     }
   };
 
-  const handleDoneTask = (taskArray: Task[], taskId: number) => {
+  const sendToDone = (taskArray: Task[], taskId: number) => {
     const movingTask = taskArray.find((task) =>
       task.id == taskId ? task : null
     );
@@ -174,136 +190,172 @@ function App() {
       )}
       <Header />
 
-      <div className="container">
-        <Tooltip anchorSelect=".button" />
+      <Box>
         <Topbar />
 
-        <AddTaskBar
-          newTaskDescription={newTaskDescription}
-          setNewTaskDescription={setNewTaskDescription}
-          handleAddTask={handleAddTask}
-        />
+        <Box>
+          <AddTaskBar
+            newTaskDescription={newTaskDescription}
+            setNewTaskDescription={setNewTaskDescription}
+            handleAddTask={handleAddTask}
+          />
+        </Box>
 
-        <div className="task-panel">
-          <div className="task-column">
-            <h2 className="panel-label label-todo">
-              <FaList /> TO-DO
-            </h2>
-            <ul className="task-list task-todo">
+        <CustomBoxFlex sx={{ gap: 1 }}>
+          <Paper elevation={4}>
+            <Typography variant="h6">
+              <IconButton aria-label="todo" size="medium">
+                <ListIcon fontSize="inherit" />
+              </IconButton>
+              TO-DO
+            </Typography>
+
+            <Divider />
+
+            <List>
               {todoTasks.map((task) => (
-                <li key={task.id} className="task-item">
-                  {task.description}
-                  <div className="task-controls">
-                    <EditTaskButton
-                      taskList={todoTasks}
-                      taskid={task.id}
-                      handleEditTask={handleEditTask}
-                    />
-                    <button
-                      onClick={() => handleDoingTask(todoTasks, task.id)}
-                      className="button doing-button"
-                      data-tooltip-content="Send this task to DOING!"
-                    >
-                      <FaTools />
-                    </button>
-                    <button
-                      onClick={() => handleDoneTask(todoTasks, task.id)}
-                      className="button done-button"
-                      data-tooltip-content="Make it DONE!"
-                    >
-                      <FaCheck />
-                    </button>
-                    <DeleteTaskButton
-                      taskList={todoTasks}
-                      taskid={task.id}
-                      handleDeleteTask={handleDeleteTask}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                <CustomTaskListItem key={task.id}>
+                  <CustomCardTask>
+                    <Typography>{task.description}</Typography>
+                    <Divider />
+                    <CustomFlexButtonGroup>
+                      <TaskButton
+                        taskList={todoTasks}
+                        taskid={task.id}
+                        handleClick={handleEditTask}
+                        icon={<EditIcon fontSize="inherit" />}
+                      />
 
-          <div className="task-column">
-            <h2 className="panel-label label-doing">
-              <FaTools /> DOING
-            </h2>
-            <ul className="task-list task-doing">
+                      <TaskButton
+                        taskList={todoTasks}
+                        taskid={task.id}
+                        handleClick={sendToDoing}
+                        icon={<ConstructionIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={todoTasks}
+                        taskid={task.id}
+                        handleClick={sendToDone}
+                        icon={<CheckIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={todoTasks}
+                        taskid={task.id}
+                        handleClick={handleDeleteTask}
+                        icon={<DeleteIcon fontSize="inherit" />}
+                      />
+                    </CustomFlexButtonGroup>
+                  </CustomCardTask>
+                </CustomTaskListItem>
+              ))}
+            </List>
+          </Paper>
+
+          <Paper elevation={4}>
+            <Typography variant="h6">
+              <IconButton aria-label="todo" size="medium">
+                <ConstructionIcon fontSize="inherit" />
+              </IconButton>
+              DOING
+            </Typography>
+
+            <Divider />
+
+            <List>
               {doingTasks.map((task) => (
-                <li key={task.id} className="task-item">
-                  {task.description}
-                  <div className="task-controls">
-                    <EditTaskButton
-                      taskList={doingTasks}
-                      taskid={task.id}
-                      handleEditTask={handleEditTask}
-                    />
-                    <button
-                      onClick={() => handleToDoTask(doingTasks, task.id)}
-                      className="button todo-button"
-                      data-tooltip-content="Back to 'TO-DO'"
-                    >
-                      <FaList />
-                    </button>
-                    <button
-                      onClick={() => handleDoneTask(doingTasks, task.id)}
-                      className="button done-button"
-                      data-tooltip-content="Make it DONE!"
-                    >
-                      <FaCheck />
-                    </button>
-                    <DeleteTaskButton
-                      taskList={doingTasks}
-                      taskid={task.id}
-                      handleDeleteTask={handleDeleteTask}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+                <CustomTaskListItem key={task.id}>
+                  <CustomCardTask>
+                    <Typography>{task.description}</Typography>
+                    <Divider />
+                    <CustomFlexButtonGroup>
+                      <TaskButton
+                        taskList={doingTasks}
+                        taskid={task.id}
+                        handleClick={handleEditTask}
+                        icon={<EditIcon fontSize="inherit" />}
+                      />
 
-          <div className="task-column">
-            <h2 className="panel-label label-done">
-              <FaCheck />
-              DONE
-            </h2>
-            <ul className="task-list task-done">
-              {doneTasks.map((task) => (
-                <li key={task.id} className="task-item">
-                  {task.description}
-                  <div className="task-controls">
-                    <EditTaskButton
-                      taskList={doneTasks}
-                      taskid={task.id}
-                      handleEditTask={handleEditTask}
-                    />
-                    <button
-                      onClick={() => handleToDoTask(doneTasks, task.id)}
-                      className="button todo-button"
-                      data-tooltip-content="Back to 'TO-DO'"
-                    >
-                      <FaList />
-                    </button>
-                    <button
-                      onClick={() => handleDoingTask(doneTasks, task.id)}
-                      className="button doing-button"
-                      data-tooltip-content="Send this task to DOING!"
-                    >
-                      <FaTools />
-                    </button>
-                    <DeleteTaskButton
-                      taskList={doneTasks}
-                      taskid={task.id}
-                      handleDeleteTask={handleDeleteTask}
-                    />
-                  </div>
-                </li>
+                      <TaskButton
+                        taskList={doingTasks}
+                        taskid={task.id}
+                        handleClick={sendToTodo}
+                        icon={<ListIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={doingTasks}
+                        taskid={task.id}
+                        handleClick={sendToDone}
+                        icon={<CheckIcon fontSize="inherit" />}
+                      />
+                      <TaskButton
+                        taskList={doingTasks}
+                        taskid={task.id}
+                        handleClick={handleDeleteTask}
+                        icon={<DeleteIcon fontSize="inherit" />}
+                      />
+                    </CustomFlexButtonGroup>
+                  </CustomCardTask>
+                </CustomTaskListItem>
               ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+            </List>
+          </Paper>
+
+          <Paper elevation={4}>
+            <Typography variant="h6">
+              <IconButton aria-label="todo" size="medium">
+                <CheckIcon fontSize="inherit" />
+              </IconButton>
+              DONE
+            </Typography>
+
+            <Divider />
+
+            <List>
+              {doneTasks.map((task) => (
+                <CustomTaskListItem key={task.id}>
+                  <CustomCardTask>
+                    <Typography>{task.description}</Typography>
+                    <Divider />
+                    <CustomFlexButtonGroup>
+                      <TaskButton
+                        taskList={doneTasks}
+                        taskid={task.id}
+                        handleClick={handleEditTask}
+                        icon={<EditIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={doneTasks}
+                        taskid={task.id}
+                        handleClick={sendToTodo}
+                        icon={<ListIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={doneTasks}
+                        taskid={task.id}
+                        handleClick={sendToDoing}
+                        icon={<ConstructionIcon fontSize="inherit" />}
+                      />
+
+                      <TaskButton
+                        taskList={doneTasks}
+                        taskid={task.id}
+                        handleClick={handleDeleteTask}
+                        icon={<DeleteIcon fontSize="inherit" />}
+                      />
+                    </CustomFlexButtonGroup>
+                  </CustomCardTask>
+                </CustomTaskListItem>
+              ))}
+            </List>
+          </Paper>
+        </CustomBoxFlex>
+      </Box>
+      <Tooltip anchorSelect=".button" />
     </div>
   );
 }
