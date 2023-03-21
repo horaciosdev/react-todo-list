@@ -1,17 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  FaList,
-  FaTools,
-  FaCheck,
-  FaTrash,
-  FaPencilAlt,
-  FaTimes,
-} from "react-icons/fa";
+import { FaList, FaTools, FaCheck, FaTrash, FaTimes } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
 import AddTaskBar from "./components/AddTaskBar";
+import EditTaskButton from "./components/buttons/EditTaskButton";
 import Header from "./components/Header";
 import Topbar from "./components/Topbar";
 
@@ -199,13 +193,11 @@ function App() {
                 <li key={task.id} className="task-item">
                   {task.description}
                   <div className="task-controls">
-                    <button
-                      onClick={() => handleEditTask(todoTasks, task.id)}
-                      className="button edit-button"
-                      data-tooltip-content="Edit!"
-                    >
-                      <FaPencilAlt />
-                    </button>
+                    <EditTaskButton
+                      taskList={todoTasks}
+                      taskid={task.id}
+                      handleEditTask={handleEditTask}
+                    />
                     <button
                       onClick={() => handleDoingTask(todoTasks, task.id)}
                       className="button doing-button"
@@ -242,13 +234,11 @@ function App() {
                 <li key={task.id} className="task-item">
                   {task.description}
                   <div className="task-controls">
-                    <button
-                      onClick={() => handleEditTask(doingTasks, task.id)}
-                      className="button edit-button"
-                      data-tooltip-content="Edit!"
-                    >
-                      <FaPencilAlt />
-                    </button>
+                    <EditTaskButton
+                      taskList={doingTasks}
+                      taskid={task.id}
+                      handleEditTask={handleEditTask}
+                    />
                     <button
                       onClick={() => handleToDoTask(doingTasks, task.id)}
                       className="button todo-button"
@@ -286,13 +276,11 @@ function App() {
                 <li key={task.id} className="task-item">
                   {task.description}
                   <div className="task-controls">
-                    <button
-                      onClick={() => handleEditTask(doneTasks, task.id)}
-                      className="button edit-button"
-                      data-tooltip-content="Edit!"
-                    >
-                      <FaPencilAlt />
-                    </button>
+                    <EditTaskButton
+                      taskList={doneTasks}
+                      taskid={task.id}
+                      handleEditTask={handleEditTask}
+                    />
                     <button
                       onClick={() => handleToDoTask(doneTasks, task.id)}
                       className="button todo-button"
