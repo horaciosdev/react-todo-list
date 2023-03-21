@@ -6,13 +6,13 @@ import {
   FaTrash,
   FaPencilAlt,
   FaTimes,
-  FaGithub,
-  FaRocket,
 } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
+import Header from "./components/Header";
+import Topbar from "./components/Topbar";
 
 interface Task {
   id: number;
@@ -176,32 +176,11 @@ function App() {
           </div>
         </div>
       )}
-
-      <header>
-        <button>
-          <a
-            href="https://github.com/horaciosdev/react-todo-list"
-            target="_blank"
-          >
-            <FaGithub /> GitHub
-          </a>
-        </button>{" "}
-        <button>
-          <a href="https://my-portfolio-ten-navy.vercel.app/" target="_blank">
-            <FaRocket /> Other Projects
-          </a>
-        </button>
-      </header>
+      <Header />
 
       <div className="container">
         <Tooltip anchorSelect=".button" />
-        <h1>
-          <span>
-            <FaList />
-          </span>{" "}
-          <span>To</span>
-          <span>Do</span> <span>LIST</span>
-        </h1>
+        <Topbar />
         <div className="input-container">
           <textarea
             value={newTaskDescription}
