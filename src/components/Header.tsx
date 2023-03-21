@@ -2,7 +2,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 // import LightModeIcon from "@mui/icons-material/LightMode";
-import { Box, Button, Link, Switch } from "@mui/material";
+import { Box, Button, Link } from "@mui/material";
 
 export default function Header(/* props: any */) {
   //   const { lightMode, setLightMode } = props;
