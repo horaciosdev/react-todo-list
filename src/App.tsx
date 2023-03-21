@@ -5,6 +5,7 @@ import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
 import AddTaskBar from "./components/AddTaskBar";
+import DeleteTaskButton from "./components/buttons/DeleteTaskButton";
 import EditTaskButton from "./components/buttons/EditTaskButton";
 import Header from "./components/Header";
 import Topbar from "./components/Topbar";
@@ -212,13 +213,11 @@ function App() {
                     >
                       <FaCheck />
                     </button>
-                    <button
-                      onClick={() => handleDeleteTask(todoTasks, task.id)}
-                      className="button delete-button"
-                      data-tooltip-content="DELETE"
-                    >
-                      <FaTrash />
-                    </button>
+                    <DeleteTaskButton
+                      taskList={todoTasks}
+                      taskid={task.id}
+                      handleDeleteTask={handleDeleteTask}
+                    />
                   </div>
                 </li>
               ))}
@@ -253,13 +252,11 @@ function App() {
                     >
                       <FaCheck />
                     </button>
-                    <button
-                      onClick={() => handleDeleteTask(doingTasks, task.id)}
-                      className="button delete-button"
-                      data-tooltip-content="DELETE"
-                    >
-                      <FaTrash />
-                    </button>
+                    <DeleteTaskButton
+                      taskList={doingTasks}
+                      taskid={task.id}
+                      handleDeleteTask={handleDeleteTask}
+                    />
                   </div>
                 </li>
               ))}
@@ -295,13 +292,11 @@ function App() {
                     >
                       <FaTools />
                     </button>
-                    <button
-                      onClick={() => handleDeleteTask(doneTasks, task.id)}
-                      className="button delete-button"
-                      data-tooltip-content="DELETE"
-                    >
-                      <FaTrash />
-                    </button>
+                    <DeleteTaskButton
+                      taskList={doneTasks}
+                      taskid={task.id}
+                      handleDeleteTask={handleDeleteTask}
+                    />
                   </div>
                 </li>
               ))}
