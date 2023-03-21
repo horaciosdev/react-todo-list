@@ -11,6 +11,7 @@ import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
+import AddTaskBar from "./components/AddTaskBar";
 import Header from "./components/Header";
 import Topbar from "./components/Topbar";
 
@@ -181,16 +182,13 @@ function App() {
       <div className="container">
         <Tooltip anchorSelect=".button" />
         <Topbar />
-        <div className="input-container">
-          <textarea
-            value={newTaskDescription}
-            onChange={(event) => setNewTaskDescription(event.target.value)}
-            placeholder="Add a new task"
-          />
-          <button onClick={handleAddTask} className="button">
-            Add a Task
-          </button>
-        </div>
+
+        <AddTaskBar
+          newTaskDescription={newTaskDescription}
+          setNewTaskDescription={setNewTaskDescription}
+          handleAddTask={handleAddTask}
+        />
+
         <div className="task-panel">
           <div className="task-column">
             <h2 className="panel-label label-todo">
