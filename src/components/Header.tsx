@@ -1,11 +1,11 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-// import LightModeIcon from "@mui/icons-material/LightMode";
-import { Box, Button, Link } from "@mui/material";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import { Box, Button, Link, Switch } from "@mui/material";
 
-export default function Header(/* props: any */) {
-  //   const { lightMode, setLightMode } = props;
+export default function Header(props: any) {
+  const { lightMode, setLightMode } = props;
   return (
     <Box
       sx={{
@@ -49,7 +49,7 @@ export default function Header(/* props: any */) {
         </Button>
       </Box>
 
-      {/* <Box
+      <Box
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -59,7 +59,7 @@ export default function Header(/* props: any */) {
         <DarkModeIcon />
         <Switch onChange={(e) => setLightMode(lightMode ? false : true)} />
         <LightModeIcon />
-      </Box> */}
+      </Box>
     </Box>
   );
 }
