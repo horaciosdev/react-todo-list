@@ -14,7 +14,7 @@ export const CustomAppBarFlex = styled(AppBar)({
 export const CustomBoxFlex = styled(Box)({
   display: "flex",
   justifyContent: "center",
-  alignItems: "center",
+  alignItems: "start",
   flexWrap: "wrap",
   gap: 1,
 });
@@ -32,4 +32,5 @@ export const CustomFlexButtonGroup = styled(ButtonGroup)({
 export const CustomCardTask = styled(Card)({
   boxShadow: "0 1px 4px 0px #888",
   padding: 5,
+  width: "100%",
 });
