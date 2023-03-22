@@ -8,7 +8,7 @@ export default function Topbar() {
     <CustomAppBarFlex position="sticky">
       <CustomBoxFlex>
         <ViewKanbanIcon sx={{ fontSize: "2rem" }} />
-        <Typography variant="h5">ToDo Kanbam</Typography>
+        <Typography variant="h5">KB</Typography>
       </CustomBoxFlex>
     </CustomAppBarFlex>
   );
