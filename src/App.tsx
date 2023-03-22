@@ -1,4 +1,4 @@
-import { Box, IconButton, List, Paper } from "@mui/material";
+import { Box, Button, IconButton, List, Modal, Paper } from "@mui/material";
 
 import Divider from "@mui/material/Divider/Divider";
 import Typography from "@mui/material/Typography/Typography";
@@ -8,17 +8,18 @@ import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
 import "./App.css";
-import AddTaskBar from "./components/AddTaskBar";
+import CreateNewTask from "./components/CreateNewTask";
 
 import Header from "./components/Header";
 import Topbar from "./components/Topbar";
-import TaskButton from "./components/buttons/TaskButton";
+import TaskButton from "./components/TaskButton";
 
 import ListIcon from "@mui/icons-material/List";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 import {
   CustomBoxFlex,
   CustomCardTask,
@@ -40,6 +41,10 @@ function App() {
   const [editingTask, setEditingTask] = useState<Task>();
   const [editingArray, setEditingArray] = useState<Task[]>([]);
 
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
   const handleAddTask = () => {
@@ -52,6 +57,7 @@ function App() {
 
     setTodoTasks([...todoTasks, newTask]);
     setNewTaskDescription("");
+    handleCloseModal();
   };
 
   const sendToTodo = (taskArray: Task[], taskId: number) => {
@@ -193,13 +199,37 @@ function App() {
       <Box>
         <Topbar />
 
-        <Box>
-          <AddTaskBar
+        <CustomBoxFlex sx={{ p: 2 }}>
+          <IconButton
+            sx={{
+              borderStyle: "solid",
+              borderWidth: "1px",
+              borderColor: "text.secondary",
+            }}
+            onClick={handleOpenModal}
+            size="large"
+          >
+            <AddIcon />
+          </IconButton>
+        </CustomBoxFlex>
+        <Modal
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CreateNewTask
+            handleCloseModal={handleCloseModal}
             newTaskDescription={newTaskDescription}
             setNewTaskDescription={setNewTaskDescription}
             handleAddTask={handleAddTask}
           />
-        </Box>
+        </Modal>
 
         <CustomBoxFlex sx={{ gap: 1 }}>
           <Paper elevation={4}>
