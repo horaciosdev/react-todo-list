@@ -25,6 +25,7 @@ import {
   CustomFlexButtonGroup,
   CustomTaskListItem,
 } from "../components/CustomMuiComponents";
+import EditTask from "../components/EditTask";
 
 interface Task {
   id: number;
@@ -42,7 +43,10 @@ function Kanban() {
 
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setIsEditing(false);
+  };
 
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
@@ -170,29 +174,28 @@ function Kanban() {
 
   return (
     <Box className="App">
-      {isEditing && editingTask && (
-        <div className="overlay">
-          <div className="modal">
-            <textarea
-              rows={4}
-              onChange={(e) => handleEditChange(e)}
-              value={editingTask.description}
+      <Modal
+        open={isEditing && editingTask ? true : false}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Box>
+          {editingTask && (
+            <EditTask
+              handleEditChange={handleEditChange}
+              editingTask={editingTask}
+              handleApplyChanges={handleApplyChanges}
+              handleCancelEditTask={handleCancelEditTask}
             />
-
-            <div className="edit-buttons">
-              <button className="button" onClick={() => handleApplyChanges()}>
-                <FaCheck />
-              </button>
-              <button
-                className="button cancel-button"
-                onClick={handleCancelEditTask}
-              >
-                <FaTimes />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
+        </Box>
+      </Modal>
 
       <Box>
         <Topbar />
@@ -210,6 +213,7 @@ function Kanban() {
             <AddIcon />
           </IconButton>
         </CustomBoxFlex>
+
         <Modal
           open={openModal}
           onClose={handleCloseModal}

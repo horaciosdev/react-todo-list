@@ -3,13 +3,14 @@ import { CustomBoxFlex } from "./CustomMuiComponents";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-export default function CreateNewTask(props: any) {
+export default function EditTask(props: any) {
   const {
-    newTaskDescription,
-    setNewTaskDescription,
-    handleAddTask,
-    handleCloseModal,
+    handleEditChange,
+    editingTask,
+    handleApplyChanges,
+    handleCancelEditTask,
   } = props;
+
   return (
     <CustomBoxFlex
       sx={{
@@ -24,30 +25,30 @@ export default function CreateNewTask(props: any) {
         p: 2,
       }}
     >
-      <Typography variant="h6">New Task</Typography>
+      <Typography variant="h6">Edit Task</Typography>
 
       <TextareaAutosize
         aria-label="minimum height"
         minRows={6}
-        placeholder="Write a new task"
+        placeholder="Edit this task"
         style={{ width: 300 }}
-        value={newTaskDescription}
-        onChange={(event) => setNewTaskDescription(event.target.value)}
+        onChange={(e) => handleEditChange(e)}
+        value={editingTask.description}
       />
 
       <CustomBoxFlex sx={{ gap: 2 }}>
         <Button
           size="large"
-          onClick={handleAddTask}
+          onClick={handleApplyChanges}
           variant="outlined"
           startIcon={<PlaylistAddIcon />}
         >
-          Add Task
+          Save Task
         </Button>
         <Button
           color="error"
           size="large"
-          onClick={handleCloseModal}
+          onClick={handleCancelEditTask}
           variant="outlined"
           endIcon={<CancelIcon />}
         >
