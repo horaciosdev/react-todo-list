@@ -9,15 +9,6 @@ import { CustomBoxFlex } from "./CustomMuiComponents";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-const style = {
-  width: 400,
-  maxWidth: "100vw",
-  bgcolor: "background.paper",
-  boxShadow: 12,
-  p: 2,
-  borderRadius: 1,
-};
-
 export default function CreateNewTask(props: any) {
   const {
     newTaskDescription,
@@ -26,38 +17,49 @@ export default function CreateNewTask(props: any) {
     handleCloseModal,
   } = props;
   return (
-    <CustomBoxFlex sx={style}>
+    <CustomBoxFlex
+      sx={{
+        width: 400,
+        maxWidth: "100vw",
+        bgcolor: "background.paper",
+        boxShadow: "0 3px 3px 0px #999",
+        flexDirection: "column",
+        alignItems: "center",
+        borderRadius: 2,
+        gap: 1,
+        p: 2,
+      }}
+    >
       <Typography variant="h6">New Task</Typography>
-      <Box>
-        <TextareaAutosize
-          aria-label="minimum height"
-          minRows={4}
-          placeholder="Write a new task"
-          style={{ width: 300 }}
-          value={newTaskDescription}
-          onChange={(event) => setNewTaskDescription(event.target.value)}
-        />
-      </Box>
 
-      <Divider />
+      <TextareaAutosize
+        aria-label="minimum height"
+        minRows={6}
+        placeholder="Write a new task"
+        style={{ width: 300 }}
+        value={newTaskDescription}
+        onChange={(event) => setNewTaskDescription(event.target.value)}
+      />
 
-      <Button
-        size="large"
-        onClick={handleAddTask}
-        variant="contained"
-        startIcon={<PlaylistAddIcon />}
-      >
-        Add Task
-      </Button>
-      <Button
-        color="error"
-        size="large"
-        onClick={handleCloseModal}
-        variant="contained"
-        endIcon={<CancelIcon />}
-      >
-        Cancel
-      </Button>
+      <CustomBoxFlex sx={{ gap: 2 }}>
+        <Button
+          size="large"
+          onClick={handleAddTask}
+          variant="contained"
+          startIcon={<PlaylistAddIcon />}
+        >
+          Add Task
+        </Button>
+        <Button
+          color="error"
+          size="large"
+          onClick={handleCloseModal}
+          variant="contained"
+          endIcon={<CancelIcon />}
+        >
+          Cancel
+        </Button>
+      </CustomBoxFlex>
     </CustomBoxFlex>
   );
 }
