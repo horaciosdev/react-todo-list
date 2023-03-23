@@ -7,7 +7,7 @@ export default function EditTask(props: any) {
   const {
     handleEditChange,
     editingTask,
-    handleApplyChanges,
+    handleSaveChanges,
     handleCancelEditTask,
   } = props;
 
@@ -39,7 +39,7 @@ export default function EditTask(props: any) {
       <CustomBoxFlex sx={{ gap: 2 }}>
         <Button
           size="large"
-          onClick={handleApplyChanges}
+          onClick={handleSaveChanges}
           variant="outlined"
           startIcon={<PlaylistAddIcon />}
         >
