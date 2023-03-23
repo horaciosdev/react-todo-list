@@ -1,9 +1,6 @@
-import { Box, IconButton, List, Modal, Paper } from "@mui/material";
+import { Box, IconButton, Modal } from "@mui/material";
 
-import Divider from "@mui/material/Divider/Divider";
-import Typography from "@mui/material/Typography/Typography";
 import { useState, useEffect } from "react";
-import { FaCheck, FaTimes } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 
 import "react-tooltip/dist/react-tooltip.css";
@@ -11,35 +8,27 @@ import "react-tooltip/dist/react-tooltip.css";
 import CreateNewTask from "../components/CreateNewTask";
 
 import Topbar from "../components/Topbar";
-import TaskButton from "../components/TaskButton";
 
 import ListIcon from "@mui/icons-material/List";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import CheckIcon from "@mui/icons-material/Check";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import AddIcon from "@mui/icons-material/Add";
-import {
-  CustomBoxFlex,
-  CustomCardTask,
-  CustomFlexButtonGroup,
-  CustomTaskListItem,
-} from "../components/CustomMuiComponents";
-import EditTask from "../components/EditTask";
 
-interface Task {
+import AddIcon from "@mui/icons-material/Add";
+import { CustomBoxFlex } from "../components/CustomMuiComponents";
+import EditTask from "../components/EditTask";
+import TaskList from "../components/TaskList";
+
+export interface ITask {
   id: number;
   description: string;
 }
 
 function Kanban() {
-  const [todoTasks, setTodoTasks] = useState<Task[]>([]);
-  const [doingTasks, setDoingTasks] = useState<Task[]>([]);
-  const [doneTasks, setDoneTasks] = useState<Task[]>([]);
+  const [todoTasks, setTodoTasks] = useState<ITask[]>([]);
+  const [doingTasks, setDoingTasks] = useState<ITask[]>([]);
+  const [doneTasks, setDoneTasks] = useState<ITask[]>([]);
   const [contentLoaded, setContentLoaded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editingTask, setEditingTask] = useState<Task>();
-  const [editingArray, setEditingArray] = useState<Task[]>([]);
+  const [editingTask, setEditingTask] = useState<ITask>();
+  const [editingArray, setEditingArray] = useState<ITask[]>([]);
 
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => setOpenModal(true);
@@ -53,7 +42,7 @@ function Kanban() {
   const handleAddTask = () => {
     if (!newTaskDescription.trim()) return;
 
-    const newTask: Task = {
+    const newTask: ITask = {
       id: Date.now(),
       description: newTaskDescription,
     };
@@ -63,37 +52,44 @@ function Kanban() {
     handleCloseModal();
   };
 
-  const sendToTodo = (taskArray: Task[], taskId: number) => {
-    const movingTask = taskArray.find((task) =>
-      task.id == taskId ? task : null
-    );
-    if (movingTask) {
-      setTodoTasks([movingTask, ...todoTasks]);
-      handleDeleteTask(taskArray, taskId);
+  const sendToTodo = (taskArray: ITask[], taskId: number) => {
+    if (taskArray !== todoTasks) {
+      const movingTask = taskArray.find((task) =>
+        task.id == taskId ? task : null
+      );
+
+      if (movingTask) {
+        setTodoTasks([movingTask, ...todoTasks]);
+        handleDeleteTask(taskArray, taskId);
+      }
     }
   };
 
-  const sendToDoing = (taskArray: Task[], taskId: number) => {
-    const movingTask = taskArray.find((task) =>
-      task.id == taskId ? task : null
-    );
-    if (movingTask) {
-      setDoingTasks([movingTask, ...doingTasks]);
-      handleDeleteTask(taskArray, taskId);
+  const sendToDoing = (taskArray: ITask[], taskId: number) => {
+    if (taskArray !== doingTasks) {
+      const movingTask = taskArray.find((task) =>
+        task.id == taskId ? task : null
+      );
+      if (movingTask) {
+        setDoingTasks([movingTask, ...doingTasks]);
+        handleDeleteTask(taskArray, taskId);
+      }
     }
   };
 
-  const sendToDone = (taskArray: Task[], taskId: number) => {
-    const movingTask = taskArray.find((task) =>
-      task.id == taskId ? task : null
-    );
-    if (movingTask) {
-      setDoneTasks([movingTask, ...doneTasks]);
-      handleDeleteTask(taskArray, taskId);
+  const sendToDone = (taskArray: ITask[], taskId: number) => {
+    if (taskArray !== doneTasks) {
+      const movingTask = taskArray.find((task) =>
+        task.id == taskId ? task : null
+      );
+      if (movingTask) {
+        setDoneTasks([movingTask, ...doneTasks]);
+        handleDeleteTask(taskArray, taskId);
+      }
     }
   };
 
-  const handleDeleteTask = (taskArray: Task[], taskId: number) => {
+  const handleDeleteTask = (taskArray: ITask[], taskId: number) => {
     const newTasks = taskArray.filter((task) => task.id !== taskId);
 
     if (todoTasks == taskArray) {
@@ -110,7 +106,7 @@ function Kanban() {
     }
   };
 
-  const handleEditTask = (taskArray: Task[], taskId: number) => {
+  const handleEditTask = (taskArray: ITask[], taskId: number) => {
     setIsEditing(true);
     const taskTemp = taskArray.find((task) => task.id == taskId);
     if (taskTemp) {
@@ -119,7 +115,7 @@ function Kanban() {
     }
   };
   const handleEditChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let { id, description } = editingTask as Task;
+    let { id, description } = editingTask as ITask;
     description = e.target.value;
     setEditingTask({ id, description });
   };
@@ -234,157 +230,36 @@ function Kanban() {
         </Modal>
 
         <CustomBoxFlex sx={{ gap: 1 }}>
-          <Paper elevation={4}>
-            <Typography variant="h6">
-              <IconButton aria-label="todo" size="medium">
-                <ListIcon fontSize="inherit" />
-              </IconButton>
-              TO-DO
-            </Typography>
-
-            <Divider />
-
-            <List>
-              {todoTasks.map((task) => (
-                <CustomTaskListItem key={task.id}>
-                  <CustomCardTask>
-                    <Typography>{task.description}</Typography>
-                    <Divider />
-                    <CustomFlexButtonGroup>
-                      <TaskButton
-                        taskList={todoTasks}
-                        taskid={task.id}
-                        handleClick={handleEditTask}
-                        icon={<EditIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={todoTasks}
-                        taskid={task.id}
-                        handleClick={sendToDoing}
-                        icon={<ConstructionIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={todoTasks}
-                        taskid={task.id}
-                        handleClick={sendToDone}
-                        icon={<CheckIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={todoTasks}
-                        taskid={task.id}
-                        handleClick={handleDeleteTask}
-                        icon={<DeleteIcon fontSize="inherit" />}
-                      />
-                    </CustomFlexButtonGroup>
-                  </CustomCardTask>
-                </CustomTaskListItem>
-              ))}
-            </List>
-          </Paper>
-
-          <Paper elevation={4}>
-            <Typography variant="h6">
-              <IconButton aria-label="todo" size="medium">
-                <ConstructionIcon fontSize="inherit" />
-              </IconButton>
-              DOING
-            </Typography>
-
-            <Divider />
-
-            <List>
-              {doingTasks.map((task) => (
-                <CustomTaskListItem key={task.id}>
-                  <CustomCardTask>
-                    <Typography>{task.description}</Typography>
-                    <Divider />
-                    <CustomFlexButtonGroup>
-                      <TaskButton
-                        taskList={doingTasks}
-                        taskid={task.id}
-                        handleClick={handleEditTask}
-                        icon={<EditIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={doingTasks}
-                        taskid={task.id}
-                        handleClick={sendToTodo}
-                        icon={<ListIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={doingTasks}
-                        taskid={task.id}
-                        handleClick={sendToDone}
-                        icon={<CheckIcon fontSize="inherit" />}
-                      />
-                      <TaskButton
-                        taskList={doingTasks}
-                        taskid={task.id}
-                        handleClick={handleDeleteTask}
-                        icon={<DeleteIcon fontSize="inherit" />}
-                      />
-                    </CustomFlexButtonGroup>
-                  </CustomCardTask>
-                </CustomTaskListItem>
-              ))}
-            </List>
-          </Paper>
-
-          <Paper elevation={4}>
-            <Typography variant="h6">
-              <IconButton aria-label="todo" size="medium">
-                <CheckIcon fontSize="inherit" />
-              </IconButton>
-              DONE
-            </Typography>
-
-            <Divider />
-
-            <List>
-              {doneTasks.map((task) => (
-                <CustomTaskListItem key={task.id}>
-                  <CustomCardTask>
-                    <Typography>{task.description}</Typography>
-                    <Divider />
-                    <CustomFlexButtonGroup>
-                      <TaskButton
-                        taskList={doneTasks}
-                        taskid={task.id}
-                        handleClick={handleEditTask}
-                        icon={<EditIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={doneTasks}
-                        taskid={task.id}
-                        handleClick={sendToTodo}
-                        icon={<ListIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={doneTasks}
-                        taskid={task.id}
-                        handleClick={sendToDoing}
-                        icon={<ConstructionIcon fontSize="inherit" />}
-                      />
-
-                      <TaskButton
-                        taskList={doneTasks}
-                        taskid={task.id}
-                        handleClick={handleDeleteTask}
-                        icon={<DeleteIcon fontSize="inherit" />}
-                      />
-                    </CustomFlexButtonGroup>
-                  </CustomCardTask>
-                </CustomTaskListItem>
-              ))}
-            </List>
-          </Paper>
+          <TaskList
+            icon={<ListIcon fontSize="inherit" />}
+            title={"TO-DO"}
+            taskList={todoTasks}
+            sendToTodo={sendToTodo}
+            sendToDoing={sendToDoing}
+            sendToDone={sendToDone}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
+          />
+          <TaskList
+            icon={<ListIcon fontSize="inherit" />}
+            title={"DOING"}
+            taskList={doingTasks}
+            sendToTodo={sendToTodo}
+            sendToDoing={sendToDoing}
+            sendToDone={sendToDone}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
+          />
+          <TaskList
+            icon={<ListIcon fontSize="inherit" />}
+            title={"DONE"}
+            taskList={doneTasks}
+            sendToTodo={sendToTodo}
+            sendToDoing={sendToDoing}
+            sendToDone={sendToDone}
+            handleEditTask={handleEditTask}
+            handleDeleteTask={handleDeleteTask}
+          />
         </CustomBoxFlex>
       </Box>
       <Tooltip anchorSelect=".button" />
