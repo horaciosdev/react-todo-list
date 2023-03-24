@@ -18,17 +18,47 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 
-import { ITask } from "../pages/Kanban";
+import { ITask, ITaskList } from "../interfaces/interfaces";
 import CreateNewTask from "./CreateNewTask";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import EditTask from "./EditTask";
+import { TaskListContext } from "../context/TaskListContext";
 
 export default function TaskList(props: any) {
-  const { taskList } = props;
-  const { title } = taskList;
+  const { taskLists, setTaskLists } = useContext(TaskListContext);
+
+  const [taskList, setTaskList] = useState<ITaskList>(props.taskList);
   const [tasks, setTasks] = useState<ITask[]>(taskList.tasks);
 
   const [editingTask, setEditingTask] = useState<ITask>();
+
+  const [waitChange, setWaitChange] = useState(false);
+  useEffect(() => {
+    // Não faz nada na primeira execução
+    if (!waitChange) {
+      setWaitChange(true);
+      return;
+    }
+
+    if (tasks) {
+      const updatedTaskList = {
+        id: taskList.id,
+        title: taskList.title,
+        update: Date.now(),
+        tasks: tasks,
+      };
+      setTaskList(updatedTaskList);
+    }
+  }, [tasks]);
+
+  useEffect(() => {
+    if (taskList) {
+      const updatdeTaskLists = taskLists.map((list) =>
+        list.id == taskList.id ? taskList : list
+      );
+      setTaskLists(updatdeTaskLists);
+    }
+  }, [taskList]);
 
   // MODALS
   const [newTaskModal, setNewTaskModal] = useState(false);
@@ -108,44 +138,52 @@ export default function TaskList(props: any) {
           justifyContent: "center",
         }}
       >
-        <CreateNewTask
-          handleCloseModal={closeNewTaskModal}
-          newTaskDescription={newTaskDescription}
-          setNewTaskDescription={setNewTaskDescription}
-          handleAddTask={handleAddTask}
-        />
+        <Box>
+          <CreateNewTask
+            handleCloseModal={closeNewTaskModal}
+            newTaskDescription={newTaskDescription}
+            setNewTaskDescription={setNewTaskDescription}
+            handleAddTask={handleAddTask}
+          />
+        </Box>
       </Modal>
 
-      <Modal
-        open={editTaskModal}
-        onClose={closeEditTaskModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box>
-          {editingTask && (
+      {editingTask && (
+        <Modal
+          open={editTaskModal}
+          onClose={closeEditTaskModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box>
             <EditTask
               handleEditChange={handleEditChange}
               editingTask={editingTask}
               handleSaveChanges={handleSaveChanges}
               handleCancelEditTask={handleCancelEditTask}
             />
-          )}
-        </Box>
-      </Modal>
+          </Box>
+        </Modal>
+      )}
 
       <CustomBoxFlex
-        sx={{ p: 1, justifyContent: "space-between", alignItems: "center" }}
+        sx={{
+          pl: 1,
+          pt: 1,
+          pr: 1,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
         <CustomBoxFlex
           sx={{ justifyContent: "space-between", alignItems: "center" }}
         >
-          <Typography variant="h6">{title}</Typography>
+          <Typography variant="h6">{taskList.title}</Typography>
         </CustomBoxFlex>
 
         <IconButton
@@ -160,6 +198,11 @@ export default function TaskList(props: any) {
           <AddIcon />
         </IconButton>
       </CustomBoxFlex>
+      <Box sx={{ pl: 1 }}>
+        <Typography variant="caption">
+          {getDateString(taskList.update)}
+        </Typography>
+      </Box>
 
       <Divider />
 
@@ -196,4 +239,17 @@ export default function TaskList(props: any) {
       </List>
     </Paper>
   );
+}
+
+function getDateString(date: number) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
+  const datestring = new Date(date).toLocaleDateString("pt-br", options);
+  return datestring;
 }

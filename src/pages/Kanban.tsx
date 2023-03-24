@@ -1,37 +1,19 @@
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, IconButton } from "@mui/material";
 
-import ListIcon from "@mui/icons-material/List";
 import AddIcon from "@mui/icons-material/Add";
 
 import { CustomBoxFlex } from "../components/CustomMuiComponents";
 import Topbar from "../components/Topbar";
 import TaskList from "../components/TaskList";
 
-export interface ITask {
-  id: number;
-  description: string;
-}
-
-interface ITaskList {
-  id: number;
-  title: string;
-  tasks: ITask[];
-}
+import { TaskListContext } from "../context/TaskListContext";
 
 function Kanban() {
-  const [taskLists, setTaskLists] = useState<ITaskList[]>([]);
-  function newTaskList() {
-    const newTaskList: ITaskList = {
-      id: Date.now(),
-      title: "new task list",
-      tasks: [],
-    };
-    setTaskLists([...taskLists, newTaskList]);
-  }
+  const { taskLists, newTaskList } = useContext(TaskListContext);
 
   return (
     <Box className="App">
