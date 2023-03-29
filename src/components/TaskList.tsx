@@ -95,6 +95,12 @@ export default function TaskList(props: any) {
             value={taskList.title}
             onChange={handleChangeCollumnTitle}
             autoFocus
+            onFocus={(event) =>
+              event?.target.setSelectionRange(
+                taskList.title.length,
+                taskList.title.length
+              )
+            }
           />
         </CustomBoxFlex>
 
