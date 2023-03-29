@@ -93,6 +93,7 @@ export default function TaskList(props: any) {
             maxRows={4}
             variant="standard"
             value={taskList.title}
+            placeholder="Write the Title Here..."
             onChange={handleChangeCollumnTitle}
             autoFocus
             onFocus={(event) =>

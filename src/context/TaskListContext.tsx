@@ -35,7 +35,7 @@ export function TaskListProvider({ children }: { children: ReactNode }) {
     const newTaskList: ITaskList = {
       id: Date.now(),
       update: Date.now(),
-      title: "Change This Title",
+      title: "",
       tasks: [],
     };
     setTaskLists([...taskLists, newTaskList]);
