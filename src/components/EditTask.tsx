@@ -2,6 +2,7 @@ import { Button, TextareaAutosize, Typography } from "@mui/material";
 import { CustomBoxFlex } from "./CustomMuiComponents";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useEffect } from "react";
 
 export default function EditTask(props: any) {
   const {
@@ -10,6 +11,16 @@ export default function EditTask(props: any) {
     handleSaveChanges,
     handleCancelEditTask,
   } = props;
+
+  useEffect(() => {
+    document.getElementById("edittasktextarea")?.focus();
+    (
+      document.getElementById("edittasktextarea") as HTMLTextAreaElement
+    ).setSelectionRange(
+      editingTask.description.length,
+      editingTask.description.length
+    );
+  }, [editingTask]);
 
   return (
     <CustomBoxFlex
@@ -34,6 +45,7 @@ export default function EditTask(props: any) {
         style={{ width: 300 }}
         onChange={(e) => handleEditChange(e)}
         value={editingTask.description}
+        id="edittasktextarea"
       />
 
       <CustomBoxFlex sx={{ gap: 2 }}>

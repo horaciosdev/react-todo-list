@@ -2,14 +2,21 @@ import { Button, TextareaAutosize, Typography } from "@mui/material";
 import { CustomBoxFlex } from "./CustomMuiComponents";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useEffect } from "react";
 
 export default function CreateNewTask(props: any) {
   const {
+    open,
     newTaskDescription,
     setNewTaskDescription,
     handleAddTask,
     handleCloseModal,
   } = props;
+
+  useEffect(() => {
+    document.getElementById("newtasktextarea")?.focus();
+  }, [open]);
+
   return (
     <CustomBoxFlex
       sx={{
@@ -33,6 +40,7 @@ export default function CreateNewTask(props: any) {
         style={{ width: 300 }}
         value={newTaskDescription}
         onChange={(event) => setNewTaskDescription(event.target.value)}
+        id="newtasktextarea"
       />
 
       <CustomBoxFlex sx={{ gap: 2 }}>

@@ -21,15 +21,15 @@ function Kanban() {
   const [taskListId, setTaskListId] = useState(0);
 
   // NEW TASK
+  const [newTaskDescription, setNewTaskDescription] = useState("");
   const openNewTaskModal = (refListId: number) => {
     setTaskListId(refListId);
     setNewTaskModal(true);
   };
   const closeNewTaskModal = () => {
     setNewTaskModal(false);
+    setNewTaskDescription("");
   };
-
-  const [newTaskDescription, setNewTaskDescription] = useState("");
 
   const handleAddTask = () => {
     if (!newTaskDescription.trim()) return;
@@ -111,7 +111,6 @@ function Kanban() {
         </Box>
       </Box>
 
-      {/* MODALS */}
       <Modal
         open={newTaskModal}
         onClose={closeNewTaskModal}
